@@ -9,11 +9,29 @@ const int spatterBrush = 7;
 const int squareBrush = 6;
 
 void setup() {
-  // put your setup code here, to run once:
-
+  pinMode(redPaint, INPUT);
+  pinMode(yellowPaint, INPUT);
+  pinMode(bluePaint, INPUT);
+  pinMode(whitePaint, INPUT);
+  pinMode(blackPaint, INPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  int redState = digitalRead(redPaint);
+  int yellowState = digitalRead(yellowPaint);
+  int blueState = digitalRead(bluePaint);
+  int whiteState = digitalRead(whitePaint);
+  int blackState = digitalRead(blackPaint);
+  
+  Serial.print(redState);
+  Serial.print(",");
+  Serial.print(yellowState);
+  Serial.print(",");
+  Serial.print(blueState);
+  Serial.print(",");
+  Serial.print(whiteState);
+  Serial.print(",");
+  Serial.println(blackState); 
+  delay(50);
 }
