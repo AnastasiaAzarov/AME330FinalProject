@@ -10,6 +10,7 @@
 
 // --- Analog Pin Declarations (Feather Sense) ---
 const int UpDown = A0;      // A0 Reading
+const int Potentiometer = A1;
 const int FrontBack = A2;   // A2 Reading
 const int LeftRight = A3;   // A3 Reading
 
@@ -41,6 +42,7 @@ void loop() {
     
     // 1. Read analog values (0-1023)
     int valueA0 = analogRead(UpDown);
+    int valueA1 = analogRead(Potentiometer);
     int valueA2 = analogRead(FrontBack);
     int valueA3 = analogRead(LeftRight);
     
@@ -51,15 +53,19 @@ void loop() {
     // 3. Send the CSV data packet: A0,A2,A3,Distance_cm\n
     
     // Start the data packet with the first three analog values
-    Serial.print(valueA0);
+    Serial.print(valueA0); //UpDown
     Serial.print(",");
-    Serial.print(valueA2);
+    Serial.print(valueA2); //Front Back-nothing plugged in
     Serial.print(",");
-    Serial.print(valueA3);
+    Serial.print(valueA3); // Left Right
     Serial.print(",");
     
     // Finish the data packet with the distance value.
+    Serial.print(distance_cm); // Ultrasonic
+    Serial.print(","); // *** NEW: Add a comma for the potentiometer value ***
+    
+    // Finish the data packet with the potentiometer value.
     // Serial.println() adds the newline character (\n) that Unity uses as a packet terminator.
-    Serial.println(distance_cm); 
+    Serial.println(valueA1); //Potentiometer
   }
 }

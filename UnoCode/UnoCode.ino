@@ -47,19 +47,16 @@ void setup() {
 }
 
 void loop() {
-  // Read the state of all "paint" pins (assuming HIGH means activated)
+  // Read the state of all "paint" pins 
   int redState = digitalRead(redPaint);
   int yellowState = digitalRead(yellowPaint);
   int blueState = digitalRead(bluePaint);
   int whiteState = digitalRead(whitePaint);
   int blackState = digitalRead(blackPaint);
   
-  // --- Determine the Base Color (Ignoring Black for now) ---
+  //Determine the Base Color
   CRGB baseColor = CRGB::Black; 
-  int activeColors = 0; // Count active *color* pins (excluding black)
-
-  // Use a unique integer to represent the combination of R, Y, B, W states
-  // This creates a unique "key" for the combination (e.g., RYBW -> 1010)
+  int activeColors = 0; // Count active color pins
   int comboKey = 0;
   
   if (redState == HIGH) {
@@ -78,9 +75,6 @@ void loop() {
     activeColors++;
     comboKey |= 1 << 3; // Bit 3 for White
   }
-
-  // --- Direct Color Lookup based on Combo Key ---
-  // The 'comboKey' ranges from 0 (no colors) to 15 (all R, Y, B, W active)
   
   switch (comboKey) {
     case 0: // None active
@@ -112,19 +106,12 @@ void loop() {
       baseColor = CRGB::Green;
       break;
       
-    // --- Three or More Colors (Magenta Rule) ---
-    // Includes mixes with White, like R+W, Y+W, B+W, R+Y+W, etc.
-    // We treat White as a base color that contributes to complexity.
-    // R+W (9), Y+W (10), B+W (12), R+Y+B (7), and all combinations >= 3 
-    
+    // --- Three or More Colors (Magenta Rule) --- 
     // Check for 3 or more active colors using the activeColors count
     default:
       if (activeColors >= 3) {
         baseColor = CRGB::Magenta;
       }
-      // Handle the remaining two-color mixes involving White specifically, 
-      // where the activeColors count would be 2. (Not necessary if all 2-color
-      // mixes involving R, Y, B are explicitly handled above, but good for clarity).
       else if (activeColors == 2) {
           if (comboKey == 9) { // Red + White (1001)
               baseColor = CRGB::HotPink; // A white-tinted Red
