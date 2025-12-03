@@ -15,8 +15,8 @@ const int FrontBack = A2;   // A2 Reading
 const int LeftRight = A3;   // A3 Reading
 
 // --- SR04 Ultrasonic Sensor Pin Declarations ---
-#define TRIG_PIN 13
-#define ECHO_PIN 12
+#define TRIG_PIN 12
+#define ECHO_PIN 13
 SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
 long distance_cm;
 
